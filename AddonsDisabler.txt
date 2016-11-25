@@ -1,0 +1,29 @@
+"Games"
+{
+	"left4dead2"
+	{
+
+		"Signatures"
+		{
+			/*
+			* CBaseServer::FillServerInfo(SVC_ServerInfo *)
+			*/
+			"CBaseServer__FillServerInfo"
+			{
+				"library"    "engine"
+				"linux"    "@_ZN11CBaseServer14FillServerInfoER14SVC_ServerInfo"
+				"windows" ""
+			}
+
+            		/* 
+			* mov esi+[19h]
+			*/
+            		"VanillaModeOffset"
+			{
+				"library" "engine"
+				"linux" "\xC6\x46\x1B\x4C\x88\x46\x19"
+				"windows" ""
+			}
+		}
+	}
+}
