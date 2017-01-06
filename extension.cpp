@@ -78,7 +78,7 @@ void AddonDisabler::SDK_OnAllLoaded()
  		return;
 	}
 	g_pServer = g_pSDKTools->GetIServer();
-	L4D_DEBUG_LOG("Address of IServer is %p");
+	L4D_DEBUG_LOG("Address of IServer is %p", g_pServer);
 	g_AddonsEclipse.InstallChangeCallback(::OnAddonsEclipseChanged);
 	AddonsDisabler::AddonsEclipse = g_AddonsEclipse.GetInt();
 	g_PatchManager.Register(new AutoPatch<Detours::CBaseServer>());
