@@ -60,8 +60,11 @@ void AddonsDisabler::Patch()
     vanillaModePatch.patch[0] = 0x0f;
     vanillaModePatch.patch[1] = 0x1f;
     vanillaModePatch.patch[2] = 0x00;
-
-    ApplyPatch(vanillaModeSig, /*offset*/4, &vanillaModePatch, /*restore*/firstTime ? &vanillaModeSigRestore : NULL);
+	#ifdef PLATFORM_WINDOWS
+    ApplyPatch(vanillaModeSig, /*offset*/0, &vanillaModePatch, /*restore*/firstTime ? &vanillaModeSigRestore : NULL);
+	#else
+	ApplyPatch(vanillaModeSig, /*offset*/4, &vanillaModePatch, /*restore*/firstTime ? &vanillaModeSigRestore : NULL);
+	#endif
     L4D_DEBUG_LOG("AddonsDisabler -- 'VanillaModeOffset' patched to NOP");
 }
 
@@ -71,7 +74,11 @@ void AddonsDisabler::Unpatch()
 
     if (vanillaModeSig)
     {
+        #ifdef PLATFORM_WINDOWS
+        ApplyPatch(vanillaModeSig, /*offset*/0, &vanillaModeSigRestore, /*restore*/NULL);
+        #else
         ApplyPatch(vanillaModeSig, /*offset*/4, &vanillaModeSigRestore, /*restore*/NULL);
+        #endif
         L4D_DEBUG_LOG("AddonsDisabler -- 'VanillaModeOffset' restored");
     }
 }

@@ -2,27 +2,19 @@
 {
 	"left4dead2"
 	{
-
 		"Signatures"
 		{
-			/*
-			* CBaseServer::FillServerInfo(SVC_ServerInfo *)
-			*/
 			"CBaseServer__FillServerInfo"
 			{
 				"library"    "engine"
-				"linux"    "@_ZN11CBaseServer14FillServerInfoER14SVC_ServerInfo"
-				"windows" ""
+				"linux"	"@_ZN11CBaseServer14FillServerInfoER14SVC_ServerInfo"
+				"windows"	"\x55\x8B\xEC\x53\x56\x57\x68\x04\x01\x00\x00"
 			}
-
-            		/* 
-			* mov esi+[19h]
-			*/
-            		"VanillaModeOffset"
+			"VanillaModeOffset"
 			{
-				"library" "engine"
-				"linux" "\xC6\x46\x1B\x4C\x88\x46\x19"
-				"windows" ""
+				"library"	"engine"
+				"linux"	"\xC6\x46\x1B\x4C\x88\x46\x19"
+				"windows"	"\x88\x5F\x19**************\xC6\x47\x1B\x57"
 			}
 		}
 	}
