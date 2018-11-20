@@ -42,7 +42,7 @@
 #define SMEXT_CONF_DESCRIPTION	"Serverside Addons Disabler"
 #define SMEXT_CONF_VERSION		"0.1"
 #define SMEXT_CONF_AUTHOR		"Visor"
-#define SMEXT_CONF_URL			"https://github.com/Attano/Left4Downtown2"
+#define SMEXT_CONF_URL			"https://github.com/Accelerator74/AddonsDisabler"
 #define SMEXT_CONF_LOGTAG		"AddonsDisabler"
 #define SMEXT_CONF_LICENSE		"GPLv3"
 #define SMEXT_CONF_DATESTRING	__DATE__
