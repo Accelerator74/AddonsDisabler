@@ -12,8 +12,7 @@ HX_INCLUDE = -I. \
 	-I$(HX_METAMOD)/core \
 	-I$(HX_METAMOD)/core/sourcehook \
 	-I$(HX_SOURCEMOD)/public \
-	-I$(HX_SOURCEMOD)/public/CDetour \
-	-I$(HX_SOURCEMOD)/public/asm \
+	-I$(HX_SOURCEMOD)/public/amtl \
 	-I$(HX_SOURCEMOD)/public/extensions \
 	-I$(HX_SOURCEMOD)/sourcepawn/include
 #
@@ -82,6 +81,6 @@ all:
 	gcc $(HX_INCLUDE) $(HX_QWERTY) $(CPP_FLAGS) $(HX_L4D2) -o l4d2_release/patchmanager.o -c codepatch/patchmanager.cpp
 	gcc $(HX_INCLUDE) $(HX_QWERTY) $(CPP_FLAGS) $(HX_L4D2) -o l4d2_release/addons_disabler.o -c addons_disabler.cpp
 #
-	gcc $(HX_SO) $(HX_SDKL4D2)/lib/linux/tier1_i486.a $(HX_SDKL4D2)/lib/linux/mathlib_i486.a $(HX_SOURCEMOD)/public/asm/asm.c libvstdlib_srv.so libtier0_srv.so -static-libgcc -shared -m32 -lm -ldl -o l4d2_release/AddonsDisabler.ext.so
+	gcc $(HX_SO) $(HX_SDKL4D2)/lib/linux/tier1_i486.a $(HX_SDKL4D2)/lib/linux/mathlib_i486.a asm/asm.c libvstdlib_srv.so libtier0_srv.so -static-libgcc -shared -m32 -lm -ldl -o l4d2_release/AddonsDisabler.ext.so
 #
 	rm -rf l4d2_release/*.o

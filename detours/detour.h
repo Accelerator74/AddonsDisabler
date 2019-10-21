@@ -32,6 +32,7 @@
 #ifndef _INCLUDE_SOURCEMOD_DETOUR_H_
 #define _INCLUDE_SOURCEMOD_DETOUR_H_
 
+#include <jit/jit_helpers.h>
 #include "../extension.h"
 #include "../codepatch/icodepatch.h"
 
