@@ -35,7 +35,7 @@
 #ifdef PLATFORM_WINDOWS
 #define vanillaModeOffset 0
 #else
-#define vanillaModeOffset 4
+#define vanillaModeOffset 0
 #endif
 
 #include "detours/detour_template.h"
