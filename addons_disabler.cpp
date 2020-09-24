@@ -104,7 +104,7 @@ namespace Detours
     
         if (g_pFwdAddonsDisabler && AddonsDisabler::AddonsEclipse > 0 && vanillaModeSig)
         {
-            int m_nPlayerSlot = *(int *)((unsigned char *)SVC_ServerInfo + 48);
+            int m_nPlayerSlot = *(int *)((unsigned char *)SVC_ServerInfo + 108);
             IClient *pClient = g_pServer->GetClient(m_nPlayerSlot);
 
             L4D_DEBUG_LOG("ADDONS DISABLER: Eligible client '%s' connected[%s]", pClient->GetClientName(), pClient->GetNetworkIDString());
@@ -114,7 +114,7 @@ namespace Detours
             
             /* uint8_t != unsigned char in terms of type */
             uint8_t disableAddons = result == Pl_Handled ? 0 : 1;
-            memset((unsigned char *)SVC_ServerInfo + 25, disableAddons, sizeof(uint8_t));
+            memset((unsigned char *)SVC_ServerInfo + 85, disableAddons, sizeof(uint8_t));
         }
 
         (this->*(GetTrampoline()))(SVC_ServerInfo);
