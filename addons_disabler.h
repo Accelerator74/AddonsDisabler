@@ -33,9 +33,11 @@
 #define _INCLUDE_SOURCEMOD_ADDONS_DISABLER_H_
 
 #ifdef PLATFORM_WINDOWS
-#define vanillaModeOffset 0
+#define vanillaModeOffset 93
+#define networkSlotOffset 116
 #else
-#define vanillaModeOffset 0
+#define vanillaModeOffset 85
+#define networkSlotOffset 108
 #endif
 
 #include "detours/detour_template.h"

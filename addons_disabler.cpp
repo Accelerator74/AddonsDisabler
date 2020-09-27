@@ -61,7 +61,7 @@ void AddonsDisabler::Patch()
     vanillaModePatch.patch[1] = 0x1f;
     vanillaModePatch.patch[2] = 0x00;
 
-    ApplyPatch(vanillaModeSig, vanillaModeOffset, &vanillaModePatch, /*restore*/firstTime ? &vanillaModeSigRestore : NULL);
+    ApplyPatch(vanillaModeSig, 0, &vanillaModePatch, /*restore*/firstTime ? &vanillaModeSigRestore : NULL);
     L4D_DEBUG_LOG("AddonsDisabler -- 'VanillaModeOffset' patched to NOP");
 }
 
@@ -71,7 +71,7 @@ void AddonsDisabler::Unpatch()
 
     if (vanillaModeSig)
     {
-        ApplyPatch(vanillaModeSig, vanillaModeOffset, &vanillaModeSigRestore, /*restore*/NULL);
+        ApplyPatch(vanillaModeSig, 0, &vanillaModeSigRestore, /*restore*/NULL);
         L4D_DEBUG_LOG("AddonsDisabler -- 'VanillaModeOffset' restored");
     }
 }
@@ -102,9 +102,9 @@ namespace Detours
     {
         cell_t result = Pl_Continue;
     
-        if (g_pFwdAddonsDisabler && AddonsDisabler::AddonsEclipse > 0 && vanillaModeSig)
+        if (g_pFwdAddonsDisabler && AddonsDisabler::AddonsEclipse != -1 && vanillaModeSig)
         {
-            int m_nPlayerSlot = *(int *)((unsigned char *)SVC_ServerInfo + 108);
+            int m_nPlayerSlot = *(int *)((unsigned char *)SVC_ServerInfo + networkSlotOffset);
             IClient *pClient = g_pServer->GetClient(m_nPlayerSlot);
 
             L4D_DEBUG_LOG("ADDONS DISABLER: Eligible client '%s' connected[%s]", pClient->GetClientName(), pClient->GetNetworkIDString());
@@ -113,8 +113,8 @@ namespace Detours
             g_pFwdAddonsDisabler->Execute(&result);
             
             /* uint8_t != unsigned char in terms of type */
-            uint8_t disableAddons = result == Pl_Handled ? 0 : 1;
-            memset((unsigned char *)SVC_ServerInfo + 85, disableAddons, sizeof(uint8_t));
+            uint8_t disableAddons = result == Pl_Handled ? 0 : !AddonsDisabler::AddonsEclipse;
+            memset((unsigned char *)SVC_ServerInfo + vanillaModeOffset, disableAddons, sizeof(uint8_t));
         }
 
         (this->*(GetTrampoline()))(SVC_ServerInfo);
