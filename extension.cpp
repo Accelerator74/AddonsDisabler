@@ -1,6 +1,4 @@
 #include "extension.h"
-
-#include <ISDKTools.h>
 #include <icvar.h>
 
 #include "codepatch/patchmanager.h"
@@ -18,9 +16,7 @@ AddonDisabler g_AddonsDisabler;		/**< Global singleton for extension's main inte
 SMEXT_LINK(&g_AddonsDisabler);
 
 IForward *g_pFwdAddonsDisabler = NULL;
-ISDKTools *g_pSDKTools = NULL;
 IGameConfig *g_pGameConf = NULL;
-IServer *g_pServer = NULL;
 ICvar *icvar = NULL;
 
 ConVar g_AddonsEclipse("l4d2_addons_eclipse", "-1", FCVAR_SPONLY|FCVAR_NOTIFY, "Addons Manager(-1: use addonconfig; 0/1: override addonconfig)");
@@ -70,15 +66,6 @@ bool AddonDisabler::SDK_OnMetamodLoad( ISmmAPI *ismm, char *error, size_t maxlen
 
 void AddonDisabler::SDK_OnAllLoaded()
 {
-	SM_GET_LATE_IFACE(SDKTOOLS, g_pSDKTools);
- 
- 	if (!g_pSDKTools)
- 	{
-		L4D_DEBUG_LOG("Failed to load sdktools");
- 		return;
-	}
-	g_pServer = g_pSDKTools->GetIServer();
-	L4D_DEBUG_LOG("Address of IServer is %p", g_pServer);
 	g_AddonsEclipse.InstallChangeCallback(::OnAddonsEclipseChanged);
 	AddonsDisabler::AddonsEclipse = g_AddonsEclipse.GetInt();
 	g_PatchManager.Register(new AutoPatch<Detours::CBaseServer>());

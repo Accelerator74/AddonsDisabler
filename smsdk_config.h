@@ -40,8 +40,8 @@
 /* Basic information exposed publicly */
 #define SMEXT_CONF_NAME			"AddonsDisabler"
 #define SMEXT_CONF_DESCRIPTION	"Serverside Addons Disabler"
-#define SMEXT_CONF_VERSION		"0.1"
-#define SMEXT_CONF_AUTHOR		"Visor"
+#define SMEXT_CONF_VERSION		"0.2"
+#define SMEXT_CONF_AUTHOR		"Visor, Accelerator"
 #define SMEXT_CONF_URL			"https://github.com/Accelerator74/AddonsDisabler"
 #define SMEXT_CONF_LOGTAG		"AddonsDisabler"
 #define SMEXT_CONF_LICENSE		"GPLv3"
@@ -61,7 +61,7 @@
 /** Enable interfaces you want to use here by uncommenting lines */
 #define SMEXT_ENABLE_FORWARDSYS
 //#define SMEXT_ENABLE_HANDLESYS
-//#define SMEXT_ENABLE_PLAYERHELPERS
+#define SMEXT_ENABLE_PLAYERHELPERS
 //#define SMEXT_ENABLE_DBMANAGER
 #define SMEXT_ENABLE_GAMECONF
 //#define SMEXT_ENABLE_MEMUTILS

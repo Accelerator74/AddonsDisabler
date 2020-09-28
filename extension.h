@@ -44,8 +44,8 @@
  */
 
 #include "smsdk_ext.h"
-#include <iserver.h>
-#include <iclient.h>
+
+#define L4D_MAX_PLAYERS 32
 
 /**
  * @brief Sample implementation of the SDK Extension.
@@ -126,6 +126,5 @@ public:
 
 extern IForward *g_pFwdAddonsDisabler;
 extern IGameConfig *g_pGameConf;
-extern IServer *g_pServer;
 
 #endif // _INCLUDE_SOURCEMOD_EXTENSION_PROPER_H_
