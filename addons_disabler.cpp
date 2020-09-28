@@ -101,28 +101,28 @@ namespace Detours
     void CBaseServer::OnFillServerInfo(int SVC_ServerInfo)
     {
         cell_t result = Pl_Continue;
-    
+
         if (g_pFwdAddonsDisabler && AddonsDisabler::AddonsEclipse != -1 && vanillaModeSig)
         {
             int m_nPlayerSlot = *(int *)((unsigned char *)SVC_ServerInfo + networkSlotOffset);
-			int client = m_nPlayerSlot + 1;
+            int client = m_nPlayerSlot + 1;
 
-			if(client > 0 && client <= L4D_MAX_PLAYERS)
-			{
-				IGamePlayer *pPlayer = playerhelpers->GetGamePlayer(client);
-				
-				if (pPlayer->IsConnected())
-				{
-					L4D_DEBUG_LOG("ADDONS DISABLER: Eligible client '%s' connected[%s]", pPlayer->GetName(), pPlayer->GetSteam2Id(false));
-					
-					g_pFwdAddonsDisabler->PushString(pPlayer->GetSteam2Id(false));
-					g_pFwdAddonsDisabler->Execute(&result);
-					
-					/* uint8_t != unsigned char in terms of type */
-					uint8_t disableAddons = result == Pl_Handled ? 0 : !AddonsDisabler::AddonsEclipse;
-					memset((unsigned char *)SVC_ServerInfo + vanillaModeOffset, disableAddons, sizeof(uint8_t));
-				}
-			}
+            if(client > 0 && client <= L4D_MAX_PLAYERS)
+            {
+                IGamePlayer *pPlayer = playerhelpers->GetGamePlayer(client);
+
+                if (pPlayer->IsConnected())
+                {
+                    L4D_DEBUG_LOG("ADDONS DISABLER: Eligible client '%s' connected[%s]", pPlayer->GetName(), pPlayer->GetSteam2Id(false));
+
+                    g_pFwdAddonsDisabler->PushString(pPlayer->GetSteam2Id(false));
+                    g_pFwdAddonsDisabler->Execute(&result);
+
+                    /* uint8_t != unsigned char in terms of type */
+                    uint8_t disableAddons = result == Pl_Handled ? 0 : !AddonsDisabler::AddonsEclipse;
+                    memset((unsigned char *)SVC_ServerInfo + vanillaModeOffset, disableAddons, sizeof(uint8_t));
+                }
+            }
         }
 
         (this->*(GetTrampoline()))(SVC_ServerInfo);
