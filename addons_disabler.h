@@ -56,11 +56,7 @@ public:
         remove the previous patch and restore the binary back to normal 
     */
     static void Unpatch();
-
-    static int AddonsEclipse;
 };
-
-void OnAddonsEclipseChanged( IConVar *var, const char *pOldValue, float flOldValue );
 
 namespace Detours {
 

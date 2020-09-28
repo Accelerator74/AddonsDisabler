@@ -9,7 +9,6 @@ HX_INCLUDE = -I. \
 	-I$(HX_SDKL4D2)/public \
 	-I$(HX_SDKL4D2)/public/tier0 \
 	-I$(HX_SDKL4D2)/public/tier1 \
-	-I$(HX_METAMOD)/core \
 	-I$(HX_METAMOD)/core/sourcehook \
 	-I$(HX_SOURCEMOD)/public \
 	-I$(HX_SOURCEMOD)/public/amtl \

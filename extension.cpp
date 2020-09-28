@@ -1,5 +1,4 @@
 #include "extension.h"
-#include <icvar.h>
 
 #include "codepatch/patchmanager.h"
 #include "codepatch/autopatch.h"
@@ -12,15 +11,10 @@
  */
 
 AddonDisabler g_AddonsDisabler;		/**< Global singleton for extension's main interface */
-
 SMEXT_LINK(&g_AddonsDisabler);
 
 IForward *g_pFwdAddonsDisabler = NULL;
 IGameConfig *g_pGameConf = NULL;
-ICvar *icvar = NULL;
-
-ConVar g_AddonsEclipse("l4d2_addons_eclipse", "-1", FCVAR_SPONLY|FCVAR_NOTIFY, "Addons Manager(-1: use addonconfig; 0/1: override addonconfig)");
-
 PatchManager g_PatchManager;
 
 bool AddonDisabler::SDK_OnLoad(char *error, size_t maxlength, bool late)
@@ -45,35 +39,14 @@ bool AddonDisabler::SDK_OnLoad(char *error, size_t maxlength, bool late)
 	return true;
 }
 
-class BaseAccessor : public IConCommandBaseAccessor
-{
-public:
-	bool RegisterConCommandBase(ConCommandBase *pCommandBase)
-	{
-		/* Always call META_REGCVAR instead of going through the engine. */
-		return META_REGCVAR(pCommandBase);
-	}
-} s_BaseAccessor;
-
-bool AddonDisabler::SDK_OnMetamodLoad( ISmmAPI *ismm, char *error, size_t maxlength, bool late )
-{
-	size_t maxlen=maxlength;
-	GET_V_IFACE_CURRENT(GetEngineFactory, icvar, ICvar, CVAR_INTERFACE_VERSION);
-	g_pCVar = icvar;
-	ConVar_Register(0, &s_BaseAccessor);
-	return true;
-}
-
 void AddonDisabler::SDK_OnAllLoaded()
 {
-	g_AddonsEclipse.InstallChangeCallback(::OnAddonsEclipseChanged);
-	AddonsDisabler::AddonsEclipse = g_AddonsEclipse.GetInt();
+	AddonsDisabler::Patch();
 	g_PatchManager.Register(new AutoPatch<Detours::CBaseServer>());
 }
 
 void AddonDisabler::SDK_OnUnload()
 {
-	ConVar_Unregister();
 	AddonsDisabler::Unpatch();
 	g_PatchManager.UnregisterAll();
 	gameconfs->CloseGameConfigFile(g_pGameConf);

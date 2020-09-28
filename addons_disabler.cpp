@@ -35,10 +35,6 @@
 
 static void *vanillaModeSig = NULL;
 static patch_t vanillaModeSigRestore;
-    
-extern ConVar g_AddonsEclipse;
-
-int AddonsDisabler::AddonsEclipse;
 
 void AddonsDisabler::Patch()
 {
@@ -76,33 +72,13 @@ void AddonsDisabler::Unpatch()
     }
 }
 
-void OnAddonsEclipseChanged( IConVar *var, const char *pOldValue, float flOldValue )
-{
-    if (AddonsDisabler::AddonsEclipse == g_AddonsEclipse.GetInt())
-        return;
-
-    AddonsDisabler::AddonsEclipse = g_AddonsEclipse.GetInt();
-    L4D_DEBUG_LOG("CVAR l4d2_addons_eclipse changed to %i...", AddonsDisabler::AddonsEclipse);
-    
-    if (AddonsDisabler::AddonsEclipse > -1)
-    {
-        L4D_DEBUG_LOG("Enabling AddonsDisabler patch");
-        AddonsDisabler::Patch();
-    }
-    else
-    {
-        L4D_DEBUG_LOG("Disabling AddonsDisabler patch");
-        AddonsDisabler::Unpatch();
-    }
-}
-
 namespace Detours
 {
     void CBaseServer::OnFillServerInfo(int SVC_ServerInfo)
     {
         cell_t result = Pl_Continue;
 
-        if (g_pFwdAddonsDisabler && AddonsDisabler::AddonsEclipse != -1 && vanillaModeSig)
+        if (g_pFwdAddonsDisabler && vanillaModeSig)
         {
             int m_nPlayerSlot = *(int *)((unsigned char *)SVC_ServerInfo + networkSlotOffset);
             int client = m_nPlayerSlot + 1;
@@ -113,13 +89,11 @@ namespace Detours
 
                 if (pPlayer->IsConnected())
                 {
-                    L4D_DEBUG_LOG("ADDONS DISABLER: Eligible client '%s' connected[%s]", pPlayer->GetName(), pPlayer->GetSteam2Id(false));
-
                     g_pFwdAddonsDisabler->PushString(pPlayer->GetSteam2Id(false));
                     g_pFwdAddonsDisabler->Execute(&result);
 
                     /* uint8_t != unsigned char in terms of type */
-                    uint8_t disableAddons = result == Pl_Handled ? 0 : !AddonsDisabler::AddonsEclipse;
+                    uint8_t disableAddons = result == Pl_Handled ? 0 : 1;
                     memset((unsigned char *)SVC_ServerInfo + vanillaModeOffset, disableAddons, sizeof(uint8_t));
                 }
             }
